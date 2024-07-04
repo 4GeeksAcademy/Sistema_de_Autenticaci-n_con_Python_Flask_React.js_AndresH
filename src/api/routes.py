@@ -26,5 +26,11 @@ def handle_hello():
         is_active = user_is_active
     )    
 
-    return jsonify(new_user), 200
+    db.session.add(new_user)
+    db.session.commit()
+
+    return jsonify(new_user.serialize(), {
+        "message": "Usuario creado con exito"
+    }), 201
+
 
