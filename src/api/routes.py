@@ -12,11 +12,19 @@ api = Blueprint('api', __name__)
 CORS(api)
 
 
-@api.route('/hello', methods=['POST', 'GET'])
+@api.route('/register', methods=['POST'])
 def handle_hello():
 
-    response_body = {
-        "message": "Hello! I'm a message that came from the backend, check the network tab on the google inspector and you will see the GET request"
-    }
+    resquest_body = request.get_json()
+    user_email = resquest_body.get("email", None)
+    user_password = resquest_body.get("password", None)
+    user_is_active = resquest_body.get("is_active", True)
 
-    return jsonify(response_body), 200
+    new_user = User(
+        email = user_email,
+        password = user_password,
+        is_active = user_is_active
+    )    
+
+    return jsonify(new_user), 200
+
