@@ -20,6 +20,13 @@ def handle_hello():
     user_password = resquest_body.get("password", None)
     user_is_active = resquest_body.get("is_active", True)
 
+    if not user_email or not user_password:
+        return jsonify({"error": "Email and password and required"})
+
+    existing_user = User.query.filter_by(email=user_email).first()
+    if existing_user:
+        return jsonify({"error": "User already exists"}), 409
+
     new_user = User(
         email = user_email,
         password = user_password,
