@@ -13,7 +13,7 @@ api = Blueprint('api', __name__)
 CORS(api)
 
 
-@api.route('/register', methods=['POST'])
+@api.route('/register', methods=['GET', 'POST'])
 def handle_hello():
 
     resquest_body = request.get_json()
@@ -37,19 +37,15 @@ def handle_hello():
     db.session.add(new_user)
     db.session.commit()
 
-    return jsonify(new_user.serialize(), {
-        "message": "Usuario creado con exito"
-    }), 201
+    return jsonify(new_user.serialize()), 201
 
 
 
 @api.route('/login', methods=['POST'])
 def login():
-
-    #arreglar este codigo
-
-    email = request.json.get("email", None)
-    password = request.json.get("password", None)
+    request_body = request.get_json()
+    email = request_body.get("email", None)
+    password = request_body.get("password", None)
 
     user = User.query.filter_by(email=email, password=password).first()
     if user is None:
@@ -63,11 +59,11 @@ def login():
 @api.route('/private', methods=['GET'])
 @jwt_required()
 def private():
-    # Access the identity of the current user with get_jwt_identity
+    get_jwt_identity
     current_user_id = get_jwt_identity()
     user = User.query.get(current_user_id)
 
-    print(f", ID: {user.id}, Password: {user.password}")
+    print(f", ID: {user.id}, Email: {user.email}")
     return jsonify({"id": user.id, "email": user.email }), 200
 
 
