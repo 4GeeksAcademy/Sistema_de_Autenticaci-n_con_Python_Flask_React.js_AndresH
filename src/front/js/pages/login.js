@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 
 export const Login = () => {
+
     const [email, setEmail] = useState('')
     const [password, setPasswor] = useState('')
     const [error, setError] = useState(null)
@@ -11,12 +12,12 @@ export const Login = () => {
     const handleLogin = async (e) => {
             e.preventDefault();
             try {
-                const response = await actions.login(email, password);
+                const response = await actions.userLogin(email, password);
                 if(response && response.token){
                         window.location.href = '/private';
                 }
             } catch (error) {
-                setError("Tu email o contraseña es incorrecto")
+                setError("Email o Contraseña es incorrecto")
             }
     }
 

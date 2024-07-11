@@ -22,7 +22,7 @@ export const Register = () => {
             }
         }
         catch(error){
-            setError("Oops el usuario no fue registrado Intentelo nuevamente...!");
+            setError("Oops EL usuario no fue registrado Intentelo nuevamente...!");
         }
     }
 
